@@ -1,763 +1,265 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  MapPin, 
-  Heart, 
-  Info, 
-  CheckCircle, 
-  ChevronDown,
-  Music,
-  Wine,
-  Camera,
-  Sparkles,
-  ArrowRight
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свадьбу — Алексей и Анастасия</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <!-- Framer Motion & React dependencies for the logic -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .font-serif {
+            font-family: 'Cormorant+Garamond', serif;
+        }
+        .grayscale-filter {
+            filter: grayscale(100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Custom animations for non-React version */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-[#FAF9F6] text-stone-800 overflow-x-hidden">
 
-// --- UI Elements ---
+    <!-- --- HERO: THE COVER --- -->
+    <section class="relative h-screen flex flex-col items-center justify-center text-center p-6 bg-black overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <!-- Фоновое изображение из photo.gpg -->
+            <div class="w-full h-full bg-cover bg-center opacity-60 grayscale-filter scale-105" 
+                 style="background-image: url('photo.gpg');"></div>
+            <!-- Оверлей для ч/б фото -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70"></div>
+        </div>
+        
+        <div class="z-10 animate-fade-in" style="animation-delay: 0.5s;">
+            <div class="w-px h-24 bg-white/30 mx-auto mb-12"></div>
+            <p class="text-[11px] uppercase tracking-[0.6em] text-white/70 mb-8">Союз двух сердец</p>
+            <h1 class="text-6xl md:text-[9rem] font-serif font-light leading-none mb-4 tracking-tighter text-white">
+                A<span class="italic text-white/40">&</span>A
+            </h1>
+            <p class="text-2xl md:text-4xl font-serif italic text-white/80 mb-12">Алексей и Анастасия</p>
+            
+            <div class="h-px w-48 bg-white/20 mx-auto mb-12"></div>
+            
+            <div class="text-white/60 font-light tracking-[0.2em] uppercase text-xs">
+                26 Сентября 2026 — Деревня Пучково
+            </div>
 
-const DesignerCard = ({ children, className = "" }) => (
-  <div className={`relative overflow-hidden backdrop-blur-2xl bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 md:p-12 ${className}`}>
-    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-30" />
-    {children}
-  </div>
-);
+            <!-- Countdown Timer -->
+            <div id="countdown" class="flex gap-8 md:gap-12 justify-center mt-16">
+                <div class="text-center">
+                    <span id="days" class="text-4xl md:text-6xl font-serif text-white block font-light leading-none">00</span>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-white/40 mt-4 block">дней</span>
+                </div>
+                <div class="text-center">
+                    <span id="hours" class="text-4xl md:text-6xl font-serif text-white block font-light leading-none">00</span>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-white/40 mt-4 block">часов</span>
+                </div>
+                <div class="text-center">
+                    <span id="minutes" class="text-4xl md:text-6xl font-serif text-white block font-light leading-none">00</span>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-white/40 mt-4 block">минут</span>
+                </div>
+                <div class="text-center">
+                    <span id="seconds" class="text-4xl md:text-6xl font-serif text-white block font-light leading-none">00</span>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-white/40 mt-4 block">секунд</span>
+                </div>
+            </div>
+        </div>
 
-const SectionTitle = ({ subtitle, title, dark = false }) => (
-  <div className="text-center mb-24">
-    <motion.span 
-      initial={{ opacity: 0, letterSpacing: "0.2em" }}
-      whileInView={{ opacity: 1, letterSpacing: "0.5em" }}
-      className={`text-[10px] uppercase font-medium mb-4 block ${dark ? 'text-stone-500' : 'text-stone-400'}`}
-    >
-      {subtitle}
-    </motion.span>
-    <h2 className={`text-4xl md:text-6xl font-serif font-light tracking-tight ${dark ? 'text-white' : 'text-stone-800'}`}>
-      {title}
-    </h2>
-    <div className={`h-px w-12 mx-auto mt-8 ${dark ? 'bg-stone-700' : 'bg-stone-200'}`} />
-  </div>
-);
+        <div class="absolute bottom-12 text-white/50 animate-bounce cursor-pointer" onclick="scrollToId('story')">
+            <i data-lucide="chevron-down" size="32"></i>
+        </div>
+    </section>
 
-const CountdownTimer = ({ targetDate }) => {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    <!-- --- STORY --- -->
+    <section id="story" class="py-40 px-6 max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-12 gap-16 items-center">
+            <div class="lg:col-span-5 order-2 lg:order-1">
+                <div class="text-center lg:text-left mb-12">
+                    <span class="text-[10px] uppercase font-medium mb-4 block text-stone-400 tracking-[0.5em]">01. Наша глава</span>
+                    <h2 class="text-4xl md:text-6xl font-serif font-light tracking-tight text-stone-800">Тихая гавань</h2>
+                </div>
+                <div class="space-y-8 text-lg font-light leading-relaxed text-stone-500 italic">
+                    <p>Мы верим, что настоящая роскошь — это время, проведенное вдвоем. Наш путь — это череда маленьких моментов, которые сложились в одну большую симфонию.</p>
+                    <p>В этот день мы приглашаем вас в атмосферу искренности, где природа встречается с городской эстетикой.</p>
+                </div>
+            </div>
+            <div class="lg:col-span-7 order-1 lg:order-2 relative">
+                <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80" alt="История" class="w-full grayscale hover:grayscale-0 transition-all duration-1000">
+                </div>
+                <div class="absolute top-1/2 -right-8 w-64 h-64 bg-stone-100 -z-10 rounded-full blur-3xl opacity-60"></div>
+            </div>
+        </div>
+    </section>
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = new Date(targetDate).getTime() - now;
-      if (distance > 0) {
-        setTimeLeft({
-          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000),
+    <!-- --- PROGRAM --- -->
+    <section id="program" class="bg-[#121212] py-40 px-6 rounded-t-[4rem] relative overflow-hidden text-white">
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-24">
+                <span class="text-[10px] uppercase font-medium mb-4 block text-stone-500 tracking-[0.5em]">02. Тайминг</span>
+                <h2 class="text-4xl md:text-6xl font-serif font-light tracking-tight">Программа дня</h2>
+            </div>
+            
+            <div class="relative space-y-12">
+                <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-white/10"></div>
+                
+                <!-- Item 1 -->
+                <div class="relative flex items-center justify-between">
+                    <div class="w-[42%] text-right">
+                        <div class="glass-card p-6 rounded-[2rem]">
+                            <span class="text-stone-500 text-[10px] uppercase tracking-widest block mb-2">15:00</span>
+                            <h3 class="text-xl font-serif mb-2">Welcome</h3>
+                            <p class="text-stone-400 text-xs font-light">Сбор гостей и аперитив под джаз.</p>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-stone-900 border border-white/20 flex items-center justify-center z-20">
+                        <i data-lucide="wine" class="text-white/40" size="16"></i>
+                    </div>
+                    <div class="w-[42%]"></div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative flex items-center justify-between flex-row-reverse">
+                    <div class="w-[42%] text-left">
+                        <div class="glass-card p-6 rounded-[2rem]">
+                            <span class="text-stone-500 text-[10px] uppercase tracking-widest block mb-2">16:00</span>
+                            <h3 class="text-xl font-serif mb-2">Ceremony</h3>
+                            <p class="text-stone-400 text-xs font-light">Самый важный момент — наши клятвы.</p>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-stone-900 border border-white/20 flex items-center justify-center z-20">
+                        <i data-lucide="heart" class="text-white/40" size="16"></i>
+                    </div>
+                    <div class="w-[42%]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- LOCATION --- -->
+    <section id="location" class="py-40 px-6 bg-[#121212] text-white">
+        <div class="max-w-6xl mx-auto text-center">
+            <span class="text-[10px] uppercase font-medium mb-4 block text-stone-500 tracking-[0.5em]">03. Место встречи</span>
+            <h2 class="text-4xl md:text-6xl font-serif font-light mb-16">Лофт Манхэттен</h2>
+            <p class="text-stone-500 mb-16 tracking-widest text-sm uppercase">Деревня Пучково, Новая улица, 4</p>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="h-[400px] rounded-[2rem] overflow-hidden border border-white/10">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2263.667876778465!2d37.2847!3d55.4851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDI5JzA2LjQiTiAzN8KwMTcnMDQuOSJF!5e0!3m2!1sru!2sru!4v1620000000000!5m2!1sru!2sru" 
+                        class="w-full h-full grayscale invert opacity-70 contrast-125 border-none"
+                        loading="lazy"></iframe>
+                </div>
+                <div class="text-left space-y-8">
+                    <h4 class="text-2xl font-serif italic">Индустриальный шик</h4>
+                    <p class="text-stone-400 font-light leading-relaxed">
+                        Высокие потолки, кирпичные стены и огромные окна. Пространство, где природа встречается с архитектурой.
+                    </p>
+                    <button onclick="window.open('https://yandex.ru/maps/?text=деревня+Пучково+Новая+улица+4')" class="flex items-center gap-4 text-stone-300 hover:text-white transition-all uppercase tracking-widest text-xs">
+                        Построить маршрут <i data-lucide="arrow-right" size="18"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- RSVP --- -->
+    <section id="rsvp" class="py-40 px-6 bg-[#FAF9F6]">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="text-[10px] uppercase font-medium mb-4 block text-stone-400 tracking-[0.5em]">04. Обратная связь</span>
+            <h2 class="text-4xl md:text-6xl font-serif font-light mb-16 text-stone-800">Анкета гостя</h2>
+            
+            <div class="bg-white p-8 md:p-16 rounded-[3rem] shadow-sm text-left border border-stone-100">
+                <form id="rsvpForm" class="space-y-12">
+                    <div class="space-y-4">
+                        <label class="text-[10px] uppercase tracking-widest text-stone-400">Ваше имя</label>
+                        <input type="text" required class="w-full border-b border-stone-200 py-4 text-xl font-serif outline-none focus:border-stone-800 transition-all" placeholder="Фамилия и Имя">
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-6">
+                            <label class="text-[10px] uppercase tracking-widest text-stone-400">Придете ли вы?</label>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer text-stone-600 font-light"><input type="radio" name="att" class="accent-stone-800"> С удовольствием</label>
+                                <label class="flex items-center gap-3 cursor-pointer text-stone-600 font-light"><input type="radio" name="att" class="accent-stone-800"> Не смогу</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-stone-900 text-white py-6 rounded-2xl font-serif text-xl tracking-widest hover:bg-black transition-all">ОТПРАВИТЬ ОТВЕТ</button>
+                </form>
+                <div id="successMessage" class="hidden text-center py-12">
+                    <i data-lucide="check-circle" class="mx-auto text-stone-800 mb-6" size="48"></i>
+                    <h3 class="text-3xl font-serif">Благодарим за ответ!</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- FOOTER --- -->
+    <footer class="py-24 text-center border-t border-stone-100">
+        <p class="text-4xl font-serif italic text-stone-800 mb-8">Анастасия & Алексей</p>
+        <div class="flex justify-center gap-8 mb-12 text-stone-300">
+            <i data-lucide="heart" size="20"></i>
+            <i data-lucide="sparkles" size="20"></i>
+            <i data-lucide="camera" size="20"></i>
+        </div>
+        <div class="text-[9px] uppercase tracking-[0.5em] text-stone-400">2026 Свадебное торжество</div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Smooth Scroll Function
+        function scrollToId(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Countdown Timer Logic
+        const targetDate = new Date("2026-09-26T15:00:00").getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+
+            if (diff > 0) {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerText = d.toString().padStart(2, '0');
+                document.getElementById('hours').innerText = h.toString().padStart(2, '0');
+                document.getElementById('minutes').innerText = m.toString().padStart(2, '0');
+                document.getElementById('seconds').innerText = s.toString().padStart(2, '0');
+            }
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // Form Submission Simulation
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            this.classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
         });
-      }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [targetDate]);
-
-  return (
-    <div className="flex gap-8 md:gap-12 justify-center mt-16">
-      {Object.entries(timeLeft).map(([unit, value]) => (
-        <div key={unit} className="text-center">
-          <span className="text-4xl md:text-6xl font-serif text-stone-800 block font-light leading-none">
-            {value.toString().padStart(2, '0')}
-          </span>
-          <span className="text-[unit === 'days' ? '9px' : '9px'] uppercase tracking-[0.3em] text-stone-400 mt-4 block">
-            {unit === 'days' ? 'дней' : unit === 'hours' ? 'часов' : unit === 'minutes' ? 'минут' : 'секунд'}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default function App() {
-  const [submitted, setSubmitted] = useState(false);
-  const weddingDate = "2026-09-26T15:00:00";
-
-  return (
-    <div className="bg-[#FAF9F6] text-stone-800 font-sans selection:bg-stone-200 overflow-x-hidden">
-      
-      {/* --- HERO: THE COVER --- */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center p-6">
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <motion.div 
-            initial={{ scale: 1.2 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 10, ease: "easeOut" }}
-            className="w-full h-full bg-[url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10" 
-          />
-        </div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "circOut" }}
-          className="z-10"
-        >
-          <div className="w-px h-24 bg-stone-300 mx-auto mb-12" />
-          <p className="text-[11px] uppercase tracking-[0.6em] text-stone-400 mb-8">Союз двух сердец</p>
-          <h1 className="text-6xl md:text-[10rem] font-serif font-light leading-none mb-4 tracking-tighter text-stone-900">
-            A<span className="italic text-stone-400">&</span>A
-          </h1>
-          <p className="text-2xl md:text-4xl font-serif italic text-stone-600 mb-12">Алексей и Анастасия</p>
-          
-          <div className="h-px w-48 bg-stone-200 mx-auto mb-12" />
-          
-          <div className="text-stone-500 font-light tracking-[0.2em] uppercase text-xs">
-            26 Сентября 2026 — Деревня Пучково
-          </div>
-
-          <CountdownTimer targetDate={weddingDate} />
-        </motion.div>
-
-        <motion.div 
-          animate={{ y: [0, 15, 0] }}
-          transition={{ repeat: Infinity, duration: 4 }}
-          className="absolute bottom-12 text-stone-300 cursor-pointer"
-          onClick={() => document.getElementById('story').scrollIntoView({ behavior: 'smooth' })}
-        >
-          <ChevronDown size={32} strokeWidth={1} />
-        </motion.div>
-      </section>
-
-      {/* --- STORY: THE EDITORIAL --- */}
-      <section id="story" className="py-40 px-6 max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-12 gap-16 items-center">
-          <div className="lg:col-span-5 order-2 lg:order-1">
-            <SectionTitle subtitle="01. Наша глава" title="Тихая гавань" />
-            <div className="space-y-8 text-lg font-light leading-relaxed text-stone-500 italic">
-              <p>
-                Мы верим, что настоящая роскошь — это время, проведенное вдвоем. 
-                Наш путь — это череда маленьких моментов, которые сложились в одну большую симфонию.
-              </p>
-              <p>
-                В этот день мы приглашаем вас в атмосферу искренности, 
-                где природа встречается с городской эстетикой.
-              </p>
-            </div>
-          </div>
-          <div className="lg:col-span-7 order-1 lg:order-2 relative">
-             <motion.div 
-               style={{ y: -20 }}
-               className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)]"
-             >
-               <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80" alt="Love" className="w-full grayscale hover:grayscale-0 transition-all duration-1000" />
-             </motion.div>
-             <div className="absolute top-1/2 -right-8 w-64 h-64 bg-stone-100 -z-10 rounded-full blur-3xl opacity-60" />
-          </div>
-        </div>
-      </section>
-
-      {/* --- TIMELINE: THE PROGRAM (FULL LIQUID GLASS) --- */}
-      <section id="program" className="bg-[#121212] py-40 px-6 rounded-t-[4rem] relative overflow-hidden">
-        {/* Анимированный "жидкий" фон */}
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            x: [0, 100, 0]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-1/4 -left-1/4 w-[100%] h-[100%] bg-stone-500/10 blur-[150px] rounded-full" 
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.3, 1],
-            rotate: [0, -90, 0],
-            x: [0, -100, 0]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/4 -right-1/4 w-[80%] h-[80%] bg-stone-800/20 blur-[150px] rounded-full" 
-        />
-        
-        <div className="max-w-4xl mx-auto relative z-10">
-          <SectionTitle subtitle="02. Тайминг" title="Программа дня" dark />
-          
-          <div className="relative">
-             {/* Стеклянная линия таймлайна */}
-             <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-white/[0.05] backdrop-blur-xl" />
-
-             <div className="space-y-12">
-               {[
-                 { time: "15:00", title: "Welcome", desc: "Сбор гостей и аперитив под легкие джазовые ритмы.", icon: <Wine size={16}/> },
-                 { time: "16:00", title: "Ceremony", desc: "Самый важный момент — наши клятвы друг другу.", icon: <Heart size={16}/> },
-                 { time: "18:00", title: "Dinner", desc: "Ужин от шеф-повара и теплые слова друзей.", icon: <Sparkles size={16}/> },
-                 { time: "21:00", title: "Party", desc: "Время для танцев и праздничного торта.", icon: <Music size={16}/> }
-               ].map((step, idx) => (
-                 <motion.div 
-                    key={idx}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    className={`relative flex items-center gap-8 ${idx % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
-                 >
-                    {/* Контентная карточка с эффектом жидкого стекла */}
-                    <div className="w-[45%]">
-                      <div className="p-6 md:p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.07] backdrop-blur-3xl shadow-2xl transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20">
-                        <span className="text-[10px] uppercase tracking-[0.3em] text-stone-500 mb-2 block">{step.time}</span>
-                        <h3 className="text-xl font-serif text-white mb-2">{step.title}</h3>
-                        <p className="text-stone-400 font-light text-xs leading-relaxed">{step.desc}</p>
-                      </div>
-                    </div>
-
-                    {/* Центральная точка (стеклянная сфера) */}
-                    <div className="relative z-20 w-10 h-10 rounded-full bg-stone-900 border border-white/10 flex items-center justify-center backdrop-blur-xl shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-                      <div className="text-white/40">
-                        {step.icon}
-                      </div>
-                    </div>
-
-                    <div className="w-[45%] opacity-0 md:opacity-100">
-                      <div className="text-6xl font-serif italic text-white/[0.02] select-none text-center">
-                        {step.time.split(':')[0]}
-                      </div>
-                    </div>
-                 </motion.div>
-               ))}
-             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- LOCATION: THE SPACE --- */}
-      <section id="location" className="py-40 px-6 bg-[#121212]">
-        <div className="max-w-6xl mx-auto text-center">
-          <SectionTitle subtitle="03. Место встречи" title="Лофт Манхэттен" dark />
-          <p className="text-stone-500 mb-16 tracking-widest text-sm uppercase">Деревня Пучково, Новая улица, 4</p>
-          
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <DesignerCard className="h-[400px] !p-0 overflow-hidden">
-               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2263.667876778465!2d37.2847!3d55.4851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDI5JzA2LjQiTiAzN8KwMTcnMDQuOSJF!5e0!3m2!1sru!2sru!4v1620000000000!5m2!1sru!2sru" 
-                className="w-full h-full grayscale invert opacity-70 contrast-125"
-                loading="lazy"
-                title="Map"
-              />
-            </DesignerCard>
-            <div className="text-left space-y-8">
-               <h4 className="text-2xl font-serif text-white italic">Индустриальный шик в объятиях природы</h4>
-               <p className="text-stone-400 font-light leading-relaxed">
-                 Мы выбрали это место за его уникальный характер. Высокие потолки, кирпичные стены и огромные окна, 
-                 которые впускают закатное солнце. Это пространство, где наш праздник станет историей.
-               </p>
-               <button 
-                onClick={() => window.open('https://yandex.ru/maps/?text=деревня+Пучково+Новая+улица+4')}
-                className="group flex items-center gap-4 text-stone-300 hover:text-white transition-colors"
-               >
-                 <span className="text-xs uppercase tracking-[0.3em]">Построить маршрут</span>
-                 <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center group-hover:border-white transition-all">
-                   <ArrowRight size={18} />
-                 </div>
-               </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- INFO: THE DETAILS --- */}
-      <section className="py-40 px-6 bg-[#121212] rounded-b-[4rem]">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16">
-          <div className="space-y-12">
-            <h3 className="text-sm uppercase tracking-[0.4em] text-stone-500">Эстетика дня</h3>
-            <p className="text-white text-3xl font-serif leading-tight">
-              Цветовая палитра: песок, шалфей и приглушенный уголь.
-            </p>
-            <div className="flex gap-4">
-               {['#D4D9C5', '#9CA986', '#C19A6B', '#2D2926'].map(c => (
-                 <div key={c} className="w-12 h-12 rounded-full border border-white/10" style={{ background: c }} />
-               ))}
-            </div>
-          </div>
-          <div className="space-y-12">
-            <h3 className="text-sm uppercase tracking-[0.4em] text-stone-500">Пожелания</h3>
-            <p className="text-stone-400 font-light text-lg">
-              Мы будем признательны за ваше внимание. Если вы захотите подарить нам что-то особенное — 
-              пусть это будет вклад в наше первое совместное путешествие.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* --- RSVP: THE QUESTIONNAIRE (BOTTOM) --- */}
-      <section id="rsvp" className="py-40 px-6 bg-[#FAF9F6]">
-        <div className="max-w-4xl mx-auto">
-          <SectionTitle subtitle="04. Обратная связь" title="Анкета гостя" />
-          
-          <DesignerCard className="!bg-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border-stone-100">
-            {!submitted ? (
-              <form className="space-y-16" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
-                <div className="space-y-4">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-stone-400">Кто почтит нас своим присутствием?</label>
-                  <input 
-                    type="text" 
-                    placeholder="Ваши фамилии и имена"
-                    className="w-full bg-transparent border-b border-stone-200 py-6 text-xl font-serif outline-none focus:border-stone-800 transition-all placeholder:text-stone-200"
-                    required
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-16">
-                  <div className="space-y-8">
-                     <label className="text-[10px] uppercase tracking-[0.3em] text-stone-400">Сможете ли вы быть с нами?</label>
-                     <div className="space-y-4">
-                       {['С огромным удовольствием', 'Буду один/одна', 'К сожалению, не смогу'].map(choice => (
-                         <label key={choice} className="flex items-center gap-4 cursor-pointer group">
-                           <div className="relative w-5 h-5 rounded-full border border-stone-300 flex items-center justify-center group-hover:border-stone-800 transition-all">
-                             <input name="attendance" type="radio" className="peer absolute opacity-0 w-full h-full cursor-pointer" />
-                             <div className="w-2 h-2 rounded-full bg-stone-800 scale-0 peer-checked:scale-100 transition-transform" />
-                           </div>
-                           <span className="text-stone-500 font-light group-hover:text-stone-900">{choice}</span>
-                         </label>
-                       ))}
-                     </div>
-                  </div>
-
-                  <div className="space-y-8">
-                     <label className="text-[10px] uppercase tracking-[0.4em] text-stone-400">Ваши предпочтения</label>
-                     <div className="space-y-4">
-                       {['Игристое', 'Белое вино', 'Красное вино', 'Крепкие напитки'].map(drink => (
-                         <label key={drink} className="flex items-center gap-4 cursor-pointer group">
-                           <input type="checkbox" className="w-4 h-4 accent-stone-800 opacity-30 group-hover:opacity-100 transition-all" />
-                           <span className="text-stone-500 font-light group-hover:text-stone-900">{drink}</span>
-                         </label>
-                       ))}
-                     </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-stone-400">Особые пожелания (аллергии, диеты)</label>
-                  <textarea 
-                    className="w-full bg-transparent border border-stone-100 rounded-2xl p-6 h-32 outline-none focus:border-stone-300 transition-all font-light"
-                    placeholder="Напишите здесь..."
-                  />
-                </div>
-
-                <motion.button 
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  className="w-full bg-stone-900 text-white py-8 rounded-2xl font-serif text-xl tracking-widest hover:bg-black transition-all shadow-2xl"
-                >
-                  ОТПРАВИТЬ ОТВЕТ
-                </motion.button>
-              </form>
-            ) : (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-20"
-              >
-                <div className="w-24 h-24 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-8 border border-stone-100">
-                  <CheckCircle size={32} className="text-stone-800" strokeWidth={1} />
-                </div>
-                <h3 className="text-4xl font-serif text-stone-900 mb-4">Принято с благодарностью</h3>
-                <p className="text-stone-400 font-light tracking-widest uppercase text-[10px]">Мы с нетерпением ждем нашей встречи</p>
-              </motion.div>
-            )}
-          </DesignerCard>
-        </div>
-      </section>
-
-      {/* --- FOOTER --- */}
-      <footer className="py-24 text-center border-t border-stone-100">
-        <p className="text-4xl font-serif italic text-stone-800 mb-8">Анастасия & Алексей</p>
-        <div className="flex justify-center gap-8 mb-12 text-stone-300">
-           <Heart size={20} strokeWidth={1} />
-           <Sparkles size={20} strokeWidth={1} />
-           <Camera size={20} strokeWidth={1} />
-        </div>
-        <div className="text-[9px] uppercase tracking-[0.5em] text-stone-400">2026 Свадебное торжество</div>
-      </footer>
-
-      {/* Анимированный декор (Floating Orbs) */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[20%] left-[-10%] w-[50vw] h-[50vw] bg-stone-200/20 blur-[150px] rounded-full" />
-        <div className="absolute bottom-[10%] right-[-5%] w-[40vw] h-[40vw] bg-stone-100/40 blur-[120px] rounded-full" />
-      </div>
-    </div>
-  );
-}import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  MapPin, 
-  Heart, 
-  Info, 
-  CheckCircle, 
-  ChevronDown,
-  Music,
-  Wine,
-  Camera,
-  Sparkles,
-  ArrowRight
-} from 'lucide-react';
-
-// --- UI Elements ---
-
-const DesignerCard = ({ children, className = "" }) => (
-  <div className={`relative overflow-hidden backdrop-blur-2xl bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 md:p-12 ${className}`}>
-    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-30" />
-    {children}
-  </div>
-);
-
-const SectionTitle = ({ subtitle, title, dark = false }) => (
-  <div className="text-center mb-24">
-    <motion.span 
-      initial={{ opacity: 0, letterSpacing: "0.2em" }}
-      whileInView={{ opacity: 1, letterSpacing: "0.5em" }}
-      className={`text-[10px] uppercase font-medium mb-4 block ${dark ? 'text-stone-500' : 'text-stone-400'}`}
-    >
-      {subtitle}
-    </motion.span>
-    <h2 className={`text-4xl md:text-6xl font-serif font-light tracking-tight ${dark ? 'text-white' : 'text-stone-800'}`}>
-      {title}
-    </h2>
-    <div className={`h-px w-12 mx-auto mt-8 ${dark ? 'bg-stone-700' : 'bg-stone-200'}`} />
-  </div>
-);
-
-const CountdownTimer = ({ targetDate }) => {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = new Date(targetDate).getTime() - now;
-      if (distance > 0) {
-        setTimeLeft({
-          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000),
-        });
-      }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [targetDate]);
-
-  return (
-    <div className="flex gap-8 md:gap-12 justify-center mt-16">
-      {Object.entries(timeLeft).map(([unit, value]) => (
-        <div key={unit} className="text-center">
-          <span className="text-4xl md:text-6xl font-serif text-stone-800 block font-light leading-none">
-            {value.toString().padStart(2, '0')}
-          </span>
-          <span className="text-[unit === 'days' ? '9px' : '9px'] uppercase tracking-[0.3em] text-stone-400 mt-4 block">
-            {unit === 'days' ? 'дней' : unit === 'hours' ? 'часов' : unit === 'minutes' ? 'минут' : 'секунд'}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default function App() {
-  const [submitted, setSubmitted] = useState(false);
-  const weddingDate = "2026-09-26T15:00:00";
-
-  return (
-    <div className="bg-[#FAF9F6] text-stone-800 font-sans selection:bg-stone-200 overflow-x-hidden">
-      
-      {/* --- HERO: THE COVER --- */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center p-6">
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <motion.div 
-            initial={{ scale: 1.2 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 10, ease: "easeOut" }}
-            className="w-full h-full bg-[url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10" 
-          />
-        </div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "circOut" }}
-          className="z-10"
-        >
-          <div className="w-px h-24 bg-stone-300 mx-auto mb-12" />
-          <p className="text-[11px] uppercase tracking-[0.6em] text-stone-400 mb-8">Союз двух сердец</p>
-          <h1 className="text-6xl md:text-[10rem] font-serif font-light leading-none mb-4 tracking-tighter text-stone-900">
-            A<span className="italic text-stone-400">&</span>A
-          </h1>
-          <p className="text-2xl md:text-4xl font-serif italic text-stone-600 mb-12">Алексей и Анастасия</p>
-          
-          <div className="h-px w-48 bg-stone-200 mx-auto mb-12" />
-          
-          <div className="text-stone-500 font-light tracking-[0.2em] uppercase text-xs">
-            26 Сентября 2026 — Деревня Пучково
-          </div>
-
-          <CountdownTimer targetDate={weddingDate} />
-        </motion.div>
-
-        <motion.div 
-          animate={{ y: [0, 15, 0] }}
-          transition={{ repeat: Infinity, duration: 4 }}
-          className="absolute bottom-12 text-stone-300 cursor-pointer"
-          onClick={() => document.getElementById('story').scrollIntoView({ behavior: 'smooth' })}
-        >
-          <ChevronDown size={32} strokeWidth={1} />
-        </motion.div>
-      </section>
-
-      {/* --- STORY: THE EDITORIAL --- */}
-      <section id="story" className="py-40 px-6 max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-12 gap-16 items-center">
-          <div className="lg:col-span-5 order-2 lg:order-1">
-            <SectionTitle subtitle="01. Наша глава" title="Тихая гавань" />
-            <div className="space-y-8 text-lg font-light leading-relaxed text-stone-500 italic">
-              <p>
-                Мы верим, что настоящая роскошь — это время, проведенное вдвоем. 
-                Наш путь — это череда маленьких моментов, которые сложились в одну большую симфонию.
-              </p>
-              <p>
-                В этот день мы приглашаем вас в атмосферу искренности, 
-                где природа встречается с городской эстетикой.
-              </p>
-            </div>
-          </div>
-          <div className="lg:col-span-7 order-1 lg:order-2 relative">
-             <motion.div 
-               style={{ y: -20 }}
-               className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)]"
-             >
-               <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80" alt="Love" className="w-full grayscale hover:grayscale-0 transition-all duration-1000" />
-             </motion.div>
-             <div className="absolute top-1/2 -right-8 w-64 h-64 bg-stone-100 -z-10 rounded-full blur-3xl opacity-60" />
-          </div>
-        </div>
-      </section>
-
-      {/* --- TIMELINE: THE PROGRAM (FULL LIQUID GLASS) --- */}
-      <section id="program" className="bg-[#121212] py-40 px-6 rounded-t-[4rem] relative overflow-hidden">
-        {/* Анимированный "жидкий" фон */}
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            x: [0, 100, 0]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-1/4 -left-1/4 w-[100%] h-[100%] bg-stone-500/10 blur-[150px] rounded-full" 
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.3, 1],
-            rotate: [0, -90, 0],
-            x: [0, -100, 0]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/4 -right-1/4 w-[80%] h-[80%] bg-stone-800/20 blur-[150px] rounded-full" 
-        />
-        
-        <div className="max-w-4xl mx-auto relative z-10">
-          <SectionTitle subtitle="02. Тайминг" title="Программа дня" dark />
-          
-          <div className="relative">
-             {/* Стеклянная линия таймлайна */}
-             <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-white/[0.05] backdrop-blur-xl" />
-
-             <div className="space-y-12">
-               {[
-                 { time: "15:00", title: "Welcome", desc: "Сбор гостей и аперитив под легкие джазовые ритмы.", icon: <Wine size={16}/> },
-                 { time: "16:00", title: "Ceremony", desc: "Самый важный момент — наши клятвы друг другу.", icon: <Heart size={16}/> },
-                 { time: "18:00", title: "Dinner", desc: "Ужин от шеф-повара и теплые слова друзей.", icon: <Sparkles size={16}/> },
-                 { time: "21:00", title: "Party", desc: "Время для танцев и праздничного торта.", icon: <Music size={16}/> }
-               ].map((step, idx) => (
-                 <motion.div 
-                    key={idx}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    className={`relative flex items-center gap-8 ${idx % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
-                 >
-                    {/* Контентная карточка с эффектом жидкого стекла */}
-                    <div className="w-[45%]">
-                      <div className="p-6 md:p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.07] backdrop-blur-3xl shadow-2xl transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20">
-                        <span className="text-[10px] uppercase tracking-[0.3em] text-stone-500 mb-2 block">{step.time}</span>
-                        <h3 className="text-xl font-serif text-white mb-2">{step.title}</h3>
-                        <p className="text-stone-400 font-light text-xs leading-relaxed">{step.desc}</p>
-                      </div>
-                    </div>
-
-                    {/* Центральная точка (стеклянная сфера) */}
-                    <div className="relative z-20 w-10 h-10 rounded-full bg-stone-900 border border-white/10 flex items-center justify-center backdrop-blur-xl shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-                      <div className="text-white/40">
-                        {step.icon}
-                      </div>
-                    </div>
-
-                    <div className="w-[45%] opacity-0 md:opacity-100">
-                      <div className="text-6xl font-serif italic text-white/[0.02] select-none text-center">
-                        {step.time.split(':')[0]}
-                      </div>
-                    </div>
-                 </motion.div>
-               ))}
-             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- LOCATION: THE SPACE --- */}
-      <section id="location" className="py-40 px-6 bg-[#121212]">
-        <div className="max-w-6xl mx-auto text-center">
-          <SectionTitle subtitle="03. Место встречи" title="Лофт Манхэттен" dark />
-          <p className="text-stone-500 mb-16 tracking-widest text-sm uppercase">Деревня Пучково, Новая улица, 4</p>
-          
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <DesignerCard className="h-[400px] !p-0 overflow-hidden">
-               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2263.667876778465!2d37.2847!3d55.4851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDI5JzA2LjQiTiAzN8KwMTcnMDQuOSJF!5e0!3m2!1sru!2sru!4v1620000000000!5m2!1sru!2sru" 
-                className="w-full h-full grayscale invert opacity-70 contrast-125"
-                loading="lazy"
-                title="Map"
-              />
-            </DesignerCard>
-            <div className="text-left space-y-8">
-               <h4 className="text-2xl font-serif text-white italic">Индустриальный шик в объятиях природы</h4>
-               <p className="text-stone-400 font-light leading-relaxed">
-                 Мы выбрали это место за его уникальный характер. Высокие потолки, кирпичные стены и огромные окна, 
-                 которые впускают закатное солнце. Это пространство, где наш праздник станет историей.
-               </p>
-               <button 
-                onClick={() => window.open('https://yandex.ru/maps/?text=деревня+Пучково+Новая+улица+4')}
-                className="group flex items-center gap-4 text-stone-300 hover:text-white transition-colors"
-               >
-                 <span className="text-xs uppercase tracking-[0.3em]">Построить маршрут</span>
-                 <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center group-hover:border-white transition-all">
-                   <ArrowRight size={18} />
-                 </div>
-               </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- INFO: THE DETAILS --- */}
-      <section className="py-40 px-6 bg-[#121212] rounded-b-[4rem]">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16">
-          <div className="space-y-12">
-            <h3 className="text-sm uppercase tracking-[0.4em] text-stone-500">Эстетика дня</h3>
-            <p className="text-white text-3xl font-serif leading-tight">
-              Цветовая палитра: песок, шалфей и приглушенный уголь.
-            </p>
-            <div className="flex gap-4">
-               {['#D4D9C5', '#9CA986', '#C19A6B', '#2D2926'].map(c => (
-                 <div key={c} className="w-12 h-12 rounded-full border border-white/10" style={{ background: c }} />
-               ))}
-            </div>
-          </div>
-          <div className="space-y-12">
-            <h3 className="text-sm uppercase tracking-[0.4em] text-stone-500">Пожелания</h3>
-            <p className="text-stone-400 font-light text-lg">
-              Мы будем признательны за ваше внимание. Если вы захотите подарить нам что-то особенное — 
-              пусть это будет вклад в наше первое совместное путешествие.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* --- RSVP: THE QUESTIONNAIRE (BOTTOM) --- */}
-      <section id="rsvp" className="py-40 px-6 bg-[#FAF9F6]">
-        <div className="max-w-4xl mx-auto">
-          <SectionTitle subtitle="04. Обратная связь" title="Анкета гостя" />
-          
-          <DesignerCard className="!bg-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border-stone-100">
-            {!submitted ? (
-              <form className="space-y-16" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
-                <div className="space-y-4">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-stone-400">Кто почтит нас своим присутствием?</label>
-                  <input 
-                    type="text" 
-                    placeholder="Ваши фамилии и имена"
-                    className="w-full bg-transparent border-b border-stone-200 py-6 text-xl font-serif outline-none focus:border-stone-800 transition-all placeholder:text-stone-200"
-                    required
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-16">
-                  <div className="space-y-8">
-                     <label className="text-[10px] uppercase tracking-[0.3em] text-stone-400">Сможете ли вы быть с нами?</label>
-                     <div className="space-y-4">
-                       {['С огромным удовольствием', 'Буду один/одна', 'К сожалению, не смогу'].map(choice => (
-                         <label key={choice} className="flex items-center gap-4 cursor-pointer group">
-                           <div className="relative w-5 h-5 rounded-full border border-stone-300 flex items-center justify-center group-hover:border-stone-800 transition-all">
-                             <input name="attendance" type="radio" className="peer absolute opacity-0 w-full h-full cursor-pointer" />
-                             <div className="w-2 h-2 rounded-full bg-stone-800 scale-0 peer-checked:scale-100 transition-transform" />
-                           </div>
-                           <span className="text-stone-500 font-light group-hover:text-stone-900">{choice}</span>
-                         </label>
-                       ))}
-                     </div>
-                  </div>
-
-                  <div className="space-y-8">
-                     <label className="text-[10px] uppercase tracking-[0.4em] text-stone-400">Ваши предпочтения</label>
-                     <div className="space-y-4">
-                       {['Игристое', 'Белое вино', 'Красное вино', 'Крепкие напитки'].map(drink => (
-                         <label key={drink} className="flex items-center gap-4 cursor-pointer group">
-                           <input type="checkbox" className="w-4 h-4 accent-stone-800 opacity-30 group-hover:opacity-100 transition-all" />
-                           <span className="text-stone-500 font-light group-hover:text-stone-900">{drink}</span>
-                         </label>
-                       ))}
-                     </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-stone-400">Особые пожелания (аллергии, диеты)</label>
-                  <textarea 
-                    className="w-full bg-transparent border border-stone-100 rounded-2xl p-6 h-32 outline-none focus:border-stone-300 transition-all font-light"
-                    placeholder="Напишите здесь..."
-                  />
-                </div>
-
-                <motion.button 
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  className="w-full bg-stone-900 text-white py-8 rounded-2xl font-serif text-xl tracking-widest hover:bg-black transition-all shadow-2xl"
-                >
-                  ОТПРАВИТЬ ОТВЕТ
-                </motion.button>
-              </form>
-            ) : (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-20"
-              >
-                <div className="w-24 h-24 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-8 border border-stone-100">
-                  <CheckCircle size={32} className="text-stone-800" strokeWidth={1} />
-                </div>
-                <h3 className="text-4xl font-serif text-stone-900 mb-4">Принято с благодарностью</h3>
-                <p className="text-stone-400 font-light tracking-widest uppercase text-[10px]">Мы с нетерпением ждем нашей встречи</p>
-              </motion.div>
-            )}
-          </DesignerCard>
-        </div>
-      </section>
-
-      {/* --- FOOTER --- */}
-      <footer className="py-24 text-center border-t border-stone-100">
-        <p className="text-4xl font-serif italic text-stone-800 mb-8">Анастасия & Алексей</p>
-        <div className="flex justify-center gap-8 mb-12 text-stone-300">
-           <Heart size={20} strokeWidth={1} />
-           <Sparkles size={20} strokeWidth={1} />
-           <Camera size={20} strokeWidth={1} />
-        </div>
-        <div className="text-[9px] uppercase tracking-[0.5em] text-stone-400">2026 Свадебное торжество</div>
-      </footer>
-
-      {/* Анимированный декор (Floating Orbs) */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[20%] left-[-10%] w-[50vw] h-[50vw] bg-stone-200/20 blur-[150px] rounded-full" />
-        <div className="absolute bottom-[10%] right-[-5%] w-[40vw] h-[40vw] bg-stone-100/40 blur-[120px] rounded-full" />
-      </div>
-    </div>
-  );
-}
+    </script>
+</body>
+</html>
