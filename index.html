@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
-    <!-- Framer Motion & React dependencies for the logic -->
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
@@ -26,7 +26,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        /* Custom animations for non-React version */
+        /* Custom animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -41,10 +41,10 @@
     <!-- --- HERO: THE COVER --- -->
     <section class="relative h-screen flex flex-col items-center justify-center text-center p-6 bg-black overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <!-- Фоновое изображение из photo.gpg -->
+            <!-- Фоновое изображение изменено на photo.jpg -->
             <div class="w-full h-full bg-cover bg-center opacity-60 grayscale-filter scale-105" 
-                 style="background-image: url('photo.gpg');"></div>
-            <!-- Оверлей для ч/б фото -->
+                 style="background-image: url('photo.jpg');"></div>
+            <!-- Оверлей для ч/б фото для лучшей читаемости текста -->
             <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70"></div>
         </div>
         
@@ -103,7 +103,7 @@
             </div>
             <div class="lg:col-span-7 order-1 lg:order-2 relative">
                 <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl">
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80" alt="История" class="w-full grayscale hover:grayscale-0 transition-all duration-1000">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80" alt="История пары" class="w-full grayscale hover:grayscale-0 transition-all duration-1000">
                 </div>
                 <div class="absolute top-1/2 -right-8 w-64 h-64 bg-stone-100 -z-10 rounded-full blur-3xl opacity-60"></div>
             </div>
@@ -112,6 +112,10 @@
 
     <!-- --- PROGRAM --- -->
     <section id="program" class="bg-[#121212] py-40 px-6 rounded-t-[4rem] relative overflow-hidden text-white">
+        <!-- Liquid glass effect background elements -->
+        <div class="absolute -top-1/4 -left-1/4 w-[100%] h-[100%] bg-stone-500/10 blur-[150px] rounded-full opacity-30"></div>
+        <div class="absolute -bottom-1/4 -right-1/4 w-[80%] h-[80%] bg-stone-800/20 blur-[150px] rounded-full opacity-30"></div>
+
         <div class="max-w-4xl mx-auto relative z-10">
             <div class="text-center mb-24">
                 <span class="text-[10px] uppercase font-medium mb-4 block text-stone-500 tracking-[0.5em]">02. Тайминг</span>
@@ -119,34 +123,50 @@
             </div>
             
             <div class="relative space-y-12">
+                <!-- Central Timeline Line -->
                 <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-white/10"></div>
                 
-                <!-- Item 1 -->
+                <!-- Welcome -->
                 <div class="relative flex items-center justify-between">
                     <div class="w-[42%] text-right">
-                        <div class="glass-card p-6 rounded-[2rem]">
+                        <div class="glass-card p-6 rounded-[2rem] hover:bg-white/[0.05] transition-all duration-500">
                             <span class="text-stone-500 text-[10px] uppercase tracking-widest block mb-2">15:00</span>
-                            <h3 class="text-xl font-serif mb-2">Welcome</h3>
-                            <p class="text-stone-400 text-xs font-light">Сбор гостей и аперитив под джаз.</p>
+                            <h3 class="text-xl font-serif mb-2 text-white">Welcome</h3>
+                            <p class="text-stone-400 text-xs font-light">Сбор гостей и аперитив под легкие джазовые ритмы.</p>
                         </div>
                     </div>
-                    <div class="w-10 h-10 rounded-full bg-stone-900 border border-white/20 flex items-center justify-center z-20">
+                    <div class="w-10 h-10 rounded-full bg-stone-900 border border-white/20 flex items-center justify-center z-20 shadow-[0_0_15px_rgba(255,255,255,0.05)]">
                         <i data-lucide="wine" class="text-white/40" size="16"></i>
                     </div>
                     <div class="w-[42%]"></div>
                 </div>
 
-                <!-- Item 2 -->
+                <!-- Ceremony -->
                 <div class="relative flex items-center justify-between flex-row-reverse">
                     <div class="w-[42%] text-left">
-                        <div class="glass-card p-6 rounded-[2rem]">
+                        <div class="glass-card p-6 rounded-[2rem] hover:bg-white/[0.05] transition-all duration-500">
                             <span class="text-stone-500 text-[10px] uppercase tracking-widest block mb-2">16:00</span>
-                            <h3 class="text-xl font-serif mb-2">Ceremony</h3>
-                            <p class="text-stone-400 text-xs font-light">Самый важный момент — наши клятвы.</p>
+                            <h3 class="text-xl font-serif mb-2 text-white">Ceremony</h3>
+                            <p class="text-stone-400 text-xs font-light">Самый важный момент — наши клятвы друг другу.</p>
                         </div>
                     </div>
-                    <div class="w-10 h-10 rounded-full bg-stone-900 border border-white/20 flex items-center justify-center z-20">
+                    <div class="w-10 h-10 rounded-full bg-stone-900 border border-white/20 flex items-center justify-center z-20 shadow-[0_0_15px_rgba(255,255,255,0.05)]">
                         <i data-lucide="heart" class="text-white/40" size="16"></i>
+                    </div>
+                    <div class="w-[42%]"></div>
+                </div>
+
+                <!-- Dinner -->
+                <div class="relative flex items-center justify-between">
+                    <div class="w-[42%] text-right">
+                        <div class="glass-card p-6 rounded-[2rem] hover:bg-white/[0.05] transition-all duration-500">
+                            <span class="text-stone-500 text-[10px] uppercase tracking-widest block mb-2">18:00</span>
+                            <h3 class="text-xl font-serif mb-2 text-white">Dinner</h3>
+                            <p class="text-stone-400 text-xs font-light">Ужин от шеф-повара и теплые слова друзей.</p>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-stone-900 border border-white/20 flex items-center justify-center z-20 shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+                        <i data-lucide="sparkles" class="text-white/40" size="16"></i>
                     </div>
                     <div class="w-[42%]"></div>
                 </div>
@@ -162,19 +182,20 @@
             <p class="text-stone-500 mb-16 tracking-widest text-sm uppercase">Деревня Пучково, Новая улица, 4</p>
             
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="h-[400px] rounded-[2rem] overflow-hidden border border-white/10">
+                <div class="h-[400px] rounded-[2rem] overflow-hidden border border-white/10 glass-card">
                     <iframe 
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2263.667876778465!2d37.2847!3d55.4851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDI5JzA2LjQiTiAzN8KwMTcnMDQuOSJF!5e0!3m2!1sru!2sru!4v1620000000000!5m2!1sru!2sru" 
                         class="w-full h-full grayscale invert opacity-70 contrast-125 border-none"
-                        loading="lazy"></iframe>
+                        loading="lazy"
+                        title="Карта"></iframe>
                 </div>
                 <div class="text-left space-y-8">
-                    <h4 class="text-2xl font-serif italic">Индустриальный шик</h4>
+                    <h4 class="text-2xl font-serif italic text-white/90">Индустриальный шик в объятиях природы</h4>
                     <p class="text-stone-400 font-light leading-relaxed">
-                        Высокие потолки, кирпичные стены и огромные окна. Пространство, где природа встречается с архитектурой.
+                        Высокие потолки, кирпичные стены и огромные окна, которые впускают закатное солнце. Это пространство, где наш праздник станет историей.
                     </p>
-                    <button onclick="window.open('https://yandex.ru/maps/?text=деревня+Пучково+Новая+улица+4')" class="flex items-center gap-4 text-stone-300 hover:text-white transition-all uppercase tracking-widest text-xs">
-                        Построить маршрут <i data-lucide="arrow-right" size="18"></i>
+                    <button onclick="window.open('https://yandex.ru/maps/?text=деревня+Пучково+Новая+улица+4')" class="group flex items-center gap-4 text-stone-300 hover:text-white transition-all uppercase tracking-widest text-xs">
+                        Построить маршрут <i data-lucide="arrow-right" class="group-hover:translate-x-1 transition-transform" size="18"></i>
                     </button>
                 </div>
             </div>
@@ -190,30 +211,33 @@
             <div class="bg-white p-8 md:p-16 rounded-[3rem] shadow-sm text-left border border-stone-100">
                 <form id="rsvpForm" class="space-y-12">
                     <div class="space-y-4">
-                        <label class="text-[10px] uppercase tracking-widest text-stone-400">Ваше имя</label>
-                        <input type="text" required class="w-full border-b border-stone-200 py-4 text-xl font-serif outline-none focus:border-stone-800 transition-all" placeholder="Фамилия и Имя">
+                        <label class="text-[10px] uppercase tracking-widest text-stone-400">Кто почтит нас своим присутствием?</label>
+                        <input type="text" required class="w-full border-b border-stone-200 py-4 text-xl font-serif outline-none focus:border-stone-800 transition-all placeholder:text-stone-200" placeholder="Ваши фамилии и имена">
                     </div>
                     <div class="grid md:grid-cols-2 gap-12">
                         <div class="space-y-6">
-                            <label class="text-[10px] uppercase tracking-widest text-stone-400">Придете ли вы?</label>
+                            <label class="text-[10px] uppercase tracking-widest text-stone-400">Сможете ли вы быть с нами?</label>
                             <div class="space-y-3">
-                                <label class="flex items-center gap-3 cursor-pointer text-stone-600 font-light"><input type="radio" name="att" class="accent-stone-800"> С удовольствием</label>
-                                <label class="flex items-center gap-3 cursor-pointer text-stone-600 font-light"><input type="radio" name="att" class="accent-stone-800"> Не смогу</label>
+                                <label class="flex items-center gap-3 cursor-pointer text-stone-600 font-light group"><input type="radio" name="att" class="w-4 h-4 accent-stone-800"> <span class="group-hover:text-stone-900 transition-colors">С огромным удовольствием</span></label>
+                                <label class="flex items-center gap-3 cursor-pointer text-stone-600 font-light group"><input type="radio" name="att" class="w-4 h-4 accent-stone-800"> <span class="group-hover:text-stone-900 transition-colors">К сожалению, не смогу</span></label>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-stone-900 text-white py-6 rounded-2xl font-serif text-xl tracking-widest hover:bg-black transition-all">ОТПРАВИТЬ ОТВЕТ</button>
+                    <button type="submit" class="w-full bg-stone-900 text-white py-6 rounded-2xl font-serif text-xl tracking-widest hover:bg-black transition-all shadow-xl">ОТПРАВИТЬ ОТВЕТ</button>
                 </form>
-                <div id="successMessage" class="hidden text-center py-12">
-                    <i data-lucide="check-circle" class="mx-auto text-stone-800 mb-6" size="48"></i>
-                    <h3 class="text-3xl font-serif">Благодарим за ответ!</h3>
+                <div id="successMessage" class="hidden text-center py-12 animate-fade-in">
+                    <div class="w-20 h-20 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                        <i data-lucide="check-circle" class="text-stone-800" size="40"></i>
+                    </div>
+                    <h3 class="text-3xl font-serif text-stone-900 mb-2">Принято с благодарностью</h3>
+                    <p class="text-stone-400 font-light tracking-widest uppercase text-[9px]">Мы с нетерпением ждем нашей встречи</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- --- FOOTER --- -->
-    <footer class="py-24 text-center border-t border-stone-100">
+    <footer class="py-24 text-center border-t border-stone-100 bg-white">
         <p class="text-4xl font-serif italic text-stone-800 mb-8">Анастасия & Алексей</p>
         <div class="flex justify-center gap-8 mb-12 text-stone-300">
             <i data-lucide="heart" size="20"></i>
@@ -224,20 +248,23 @@
     </footer>
 
     <script>
-        // Initialize Icons
+        // Initialize Lucide Icons
         lucide.createIcons();
 
         // Smooth Scroll Function
         function scrollToId(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // Countdown Timer Logic
-        const targetDate = new Date("2026-09-26T15:00:00").getTime();
+        const weddingTime = new Date("2026-09-26T15:00:00").getTime();
 
         function updateTimer() {
             const now = new Date().getTime();
-            const diff = targetDate - now;
+            const diff = weddingTime - now;
 
             if (diff > 0) {
                 const d = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -251,10 +278,12 @@
                 document.getElementById('seconds').innerText = s.toString().padStart(2, '0');
             }
         }
+        
+        // Update every second
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // Form Submission Simulation
+        // Form Submission Logic
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
             this.classList.add('hidden');
