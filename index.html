@@ -220,9 +220,17 @@
         </div>
     </section>
 
-    <!-- --- LOCATION --- -->
-    <section id="location" class="py-40 px-6 bg-[#121212] text-white">
-        <div class="max-w-6xl mx-auto text-center">
+   <!-- --- LOCATION --- -->
+    <section id="location" class="relative py-40 px-6 bg-[#121212] text-white overflow-hidden">
+        <!-- Обновленное фото лофта по вашей ссылке -->
+        <div class="absolute inset-0 z-0">
+            <div class="w-full h-full bg-cover bg-center grayscale opacity-40 contrast-125" 
+                 style="background-image: url('https://avatars.mds.yandex.net/get-altay/16500335/2a0000019ac0b3b6090dbb65d33cc9c61925/XXXL');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-[#121212]"></div>
+            <div class="absolute inset-0 bg-black/30"></div>
+        </div>
+
+        <div class="max-w-6xl mx-auto text-center relative z-10">
             <span class="text-[10px] uppercase font-medium mb-4 block text-stone-500 tracking-[0.5em]">03. Место встречи</span>
             <h2 class="text-4xl md:text-6xl font-serif font-light mb-16">Лофт Манхэттен</h2>
             <p class="text-stone-500 mb-16 tracking-widest text-sm uppercase">Деревня Пучково, Новая улица, 4</p>
@@ -235,7 +243,7 @@
                         loading="lazy"
                         title="Карта"></iframe>
                 </div>
-                <div class="text-left space-y-8">
+                <div class="text-left space-y-8 glass-card p-8 md:p-12 rounded-[3rem]">
                     <h4 class="text-2xl font-serif italic text-white/90">Индустриальный шик в объятиях природы</h4>
                     <p class="text-stone-400 font-light leading-relaxed">
                         Высокие потолки, кирпичные стены и огромные окна, которые впускают закатное солнце. Это пространство, где наш праздник станет историей.
@@ -349,5 +357,6 @@
     </script>
 </body>
 </html>
+
 
 
