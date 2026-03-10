@@ -34,6 +34,16 @@
         .animate-fade-in {
             animation: fadeIn 1.5s ease-out forwards;
         }
+        /* Slideshow transition */
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        .slide.active {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-[#FAF9F6] text-stone-800 overflow-x-hidden">
@@ -41,10 +51,8 @@
     <!-- --- HERO: THE COVER --- -->
     <section class="relative h-screen flex flex-col items-center justify-center text-center p-6 bg-black overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <!-- Фоновое изображение: photo.jpg -->
             <div class="w-full h-full bg-cover bg-center opacity-60 grayscale-filter scale-105" 
                  style="background-image: url('photo.jpg');"></div>
-            <!-- Оверлей для ч/б фото для лучшей читаемости текста -->
             <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70"></div>
         </div>
         
@@ -104,9 +112,14 @@
                 </div>
             </div>
             <div class="lg:col-span-7 order-1 lg:order-2 relative">
-                <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl">
-                    <!-- Фото изменено на photo2.jpg -->
-                    <img src="photo2.jpg" alt="История пары" class="w-full grayscale hover:grayscale-0 transition-all duration-1000 object-cover min-h-[400px]">
+                <!-- Слайд-шоу из 6 изображений -->
+                <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl h-[400px] md:h-[600px] bg-stone-100">
+                    <img src="photo2.jpg" class="slide active w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Фото 2">
+                    <img src="photo3.jpg" class="slide w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Фото 3">
+                    <img src="photo4.jpg" class="slide w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Фото 4">
+                    <img src="photo5.jpg" class="slide w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Фото 5">
+                    <img src="photo6.jpg" class="slide w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Фото 6">
+                    <img src="photo7.jpg" class="slide w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Фото 7">
                 </div>
                 <div class="absolute top-1/2 -right-8 w-64 h-64 bg-stone-100 -z-10 rounded-full blur-3xl opacity-60"></div>
             </div>
@@ -115,7 +128,6 @@
 
     <!-- --- PROGRAM --- -->
     <section id="program" class="bg-[#121212] py-40 px-6 rounded-t-[4rem] relative overflow-hidden text-white">
-        <!-- Liquid glass effect background elements -->
         <div class="absolute -top-1/4 -left-1/4 w-[100%] h-[100%] bg-stone-500/10 blur-[150px] rounded-full opacity-30"></div>
         <div class="absolute -bottom-1/4 -right-1/4 w-[80%] h-[80%] bg-stone-800/20 blur-[150px] rounded-full opacity-30"></div>
 
@@ -126,10 +138,8 @@
             </div>
             
             <div class="relative space-y-12">
-                <!-- Central Timeline Line -->
                 <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-white/10"></div>
                 
-                <!-- Welcome -->
                 <div class="relative flex items-center justify-between">
                     <div class="w-[42%] text-right">
                         <div class="glass-card p-6 rounded-[2rem] hover:bg-white/[0.05] transition-all duration-500">
@@ -144,7 +154,6 @@
                     <div class="w-[42%]"></div>
                 </div>
 
-                <!-- Ceremony -->
                 <div class="relative flex items-center justify-between flex-row-reverse">
                     <div class="w-[42%] text-left">
                         <div class="glass-card p-6 rounded-[2rem] hover:bg-white/[0.05] transition-all duration-500">
@@ -159,7 +168,6 @@
                     <div class="w-[42%]"></div>
                 </div>
 
-                <!-- Dinner -->
                 <div class="relative flex items-center justify-between">
                     <div class="w-[42%] text-right">
                         <div class="glass-card p-6 rounded-[2rem] hover:bg-white/[0.05] transition-all duration-500">
@@ -262,6 +270,18 @@
             }
         }
 
+        // Slideshow Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        setInterval(nextSlide, 3000); // Change image every 3 seconds
+
         // Countdown Timer Logic
         const weddingTime = new Date("2026-09-26T15:00:00").getTime();
 
@@ -282,7 +302,6 @@
             }
         }
         
-        // Update every second
         setInterval(updateTimer, 1000);
         updateTimer();
 
@@ -295,4 +314,3 @@
     </script>
 </body>
 </html>
-
