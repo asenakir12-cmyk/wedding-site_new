@@ -63,6 +63,45 @@
             opacity: 1;
             z-index: 10;
         }
+        /* --- СТИЛИ ПАЛИТРЫ (ДРЕСС-КОД) --- */
+        .palette-container {
+            display: flex;
+            height: 380px;
+            gap: 12px;
+            width: 100%;
+        }
+        .palette-item {
+            position: relative;
+            flex: 1;
+            transition: flex 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .palette-item:hover {
+            flex: 3;
+        }
+        .palette-text {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-90deg);
+            white-space: nowrap;
+            font-size: 9px;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            transition: all 0.6s ease;
+            pointer-events: none;
+        }
+        .palette-item:hover .palette-text {
+            transform: translateX(-50%) rotate(0deg);
+            bottom: 40px;
+            opacity: 1;
+            font-size: 11px;
+            font-weight: 400;
+        }
     </style>
 </head>
 <body class="bg-[#FAF9F6] text-stone-800 overflow-x-hidden">
@@ -448,6 +487,7 @@
     </script>
 </body>
 </html>
+
 
 
 
