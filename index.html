@@ -63,6 +63,19 @@
             opacity: 1;
             z-index: 10;
         }
+        .contact-frame {
+        background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    }
+    .contact-btn i {
+        transition: transform 0.3s ease;
+    }
+    .contact-btn:hover i {
+        transform: scale(1.1);
+    }
+    #concierge-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
         /* --- СТИЛИ ПАЛИТРЫ (ДРЕСС-КОД) --- */
         .palette-container {
             display: flex;
@@ -498,6 +511,29 @@
             { name: "Олива", hex: "#6B704C", text: "text-white" },
         ];
 
+         // Инициализация иконок (если еще не сделано в файле)
+        if (window.lucide) {
+        lucide.createIcons();
+        }
+
+        // Скрипт плавного появления блока при скролле
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+    
+        const target = document.getElementById('concierge-section');
+        if (target) {
+            observer.observe(target);
+        }
+
         // Рендер палитры
         const paletteContainer = document.getElementById('dress-code-palette');
         colors.forEach(color => {
@@ -560,6 +596,7 @@
     </script>
 </body>
 </html>
+
 
 
 
