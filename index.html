@@ -146,6 +146,22 @@
             </div>
         </div>
     </section>
+    <!-- --- DRESS CODE PALETTE --- -->
+    <section class="py-40 px-6 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-[10px] uppercase font-medium mb-4 block text-stone-400 tracking-[0.5em]">02. Дресс-код</span>
+                <h2 class="text-4xl md:text-6xl font-serif font-light mb-8 italic">Цвета настроения</h2>
+                <p class="text-stone-500 font-light text-base max-w-xl mx-auto leading-relaxed">
+                    Будем благодарны, если вы поддержите нашу цветовую гамму. Наведите на цвет, чтобы узнать его название.
+                </p>
+            </div>
+            
+            <div class="palette-container" id="dress-code-palette">
+                <!-- Генерируется скриптом -->
+            </div>
+        </div>
+    </section>
 
     <!-- --- PROGRAM --- -->
     <section id="program" class="bg-[#121212] py-40 px-6 rounded-t-[4rem] relative overflow-hidden text-white">
@@ -359,6 +375,26 @@
     <script>
         // Initialize Lucide Icons
         lucide.createIcons();
+        
+        // Данные вашей палитры
+        const colors = [
+            { name: "Угольный", hex: "#121212", text: "text-white" },
+            { name: "Шоколад", hex: "#5D4A3E", text: "text-white" },
+            { name: "Глина", hex: "#967E6F", text: "text-white" },
+            { name: "Песок", hex: "#E0D5C3", text: "text-stone-800" },
+            { name: "Шалфей", hex: "#B2BEA9", text: "text-stone-800" },
+            { name: "Олива", hex: "#6B704C", text: "text-white" },
+        ];
+
+        // Рендер палитры
+        const paletteContainer = document.getElementById('dress-code-palette');
+        colors.forEach(color => {
+            const item = document.createElement('div');
+            item.className = 'palette-item';
+            item.style.backgroundColor = color.hex;
+            item.innerHTML = `<span class="palette-text ${color.text}">${color.name}</span>`;
+            paletteContainer.appendChild(item);
+        });
 
         // Smooth Scroll Function
         function scrollToId(id) {
@@ -412,6 +448,7 @@
     </script>
 </body>
 </html>
+
 
 
 
