@@ -63,19 +63,24 @@
             opacity: 1;
             z-index: 10;
         }
-        .contact-frame {
-        background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
-    }
-    .contact-btn i {
-        transition: transform 0.3s ease;
-    }
-    .contact-btn:hover i {
-        transform: scale(1.1);
-    }
-    #concierge-section.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
+         .contact-frame {
+        /* Добавлен чуть более светлый градиент, чтобы черный текст внутри не "проваливался" */
+        background: linear-gradient(145deg, #1e1e1e, #0f0f0f);
+        }
+        .contact-btn i {
+            transition: transform 0.3s ease;
+        }
+        .contact-btn:hover i {
+            transform: scale(1.1);
+        }
+        #concierge-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Дополнительный акцент на имени, если шрифт все равно кажется тонким */
+        h3.font-serif {
+            text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
         /* --- СТИЛИ ПАЛИТРЫ (ДРЕСС-КОД) --- */
         .palette-container {
             display: flex;
@@ -409,48 +414,54 @@
         </div>
     </section>
 
-    <!-- CONCIERGE / CONTACTS SECTION -->
-    <section class="py-32 px-6">
-        <div class="max-w-4xl mx-auto reveal">
-            <div class="text-center mb-16">
-                <h2 class="font-noir text-5xl uppercase tracking-tighter italic">CONTACTS</h2>
-                <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 mt-4">По всем вопросам</p>
-            </div>
+   <section id="concierge" class="py-32 px-6 bg-[#FAF9F6]">
+    <div class="max-w-4xl mx-auto opacity-0 translate-y-10 transition-all duration-1000" id="concierge-section">
+        <!-- Заголовок -->
+        <div class="text-center mb-16">
+            <h2 class="font-serif text-5xl uppercase tracking-tighter italic text-stone-800">Concierge</h2>
+            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 mt-4">По всем вопросам</p>
+        </div>
 
-            <div class="contact-frame rounded-sm p-1 overflow-hidden">
-                <div class="border border-white/10 p-8 md:p-16 relative">
-                    <div class="scanner-line hidden md:block"></div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-                        <div class="text-center md:text-left z-10">
-                            <span class="text-[10px] text-stone-600 uppercase font-bold tracking-widest block mb-4">Организатор</span>
-                            <h3 class="font-noir text-5xl mb-6 uppercase">Мариса</h3>
-                            <div class="space-y-6">
-                                <p class="text-sm font-light text-stone-400 leading-relaxed italic border-l-2 border-white/10 pl-4">
-                                    «Каждая деталь имеет значение. Я помогу сделать ваше присутствие на празднике максимально комфортным.»
-                                </p>
-                                <!-- НОВЫЙ ТЕКСТ ТУТ -->
-                                <p class="text-[11px] text-stone-500 leading-relaxed uppercase tracking-wider font-light">
-                                    Если вы готовите сюрприз или у вас возникнут вопросы, можете обращаться к нашему свадебному организатору.
-                                </p>
-                            </div>
+        <!-- Карточка контактов -->
+        <div class="contact-frame bg-[#121212] rounded-[2.5rem] p-1 overflow-hidden shadow-2xl">
+            <div class="border border-white/10 p-8 md:p-16 relative rounded-[2.4rem]">
+                <!-- Декоративная линия (сканер) -->
+                <div class="absolute left-1/2 top-0 bottom-0 w-px bg-white/5 hidden md:block"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start relative z-10">
+                    <!-- Информация -->
+                    <div class="text-center md:text-left">
+                        <span class="text-[10px] text-stone-500 uppercase font-bold tracking-[0.3em] block mb-4">Организатор</span>
+                        
+                        <!-- ИМЯ: Увеличен размер и добавлена жирность для читаемости -->
+                        <h3 class="font-serif text-6xl md:text-7xl mb-6 uppercase text-white font-medium tracking-tight">
+                            Мариса
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <p class="text-sm font-light text-stone-300 leading-relaxed italic border-l-2 border-white/20 pl-4">
+                                «Каждая деталь имеет значение. Мы здесь, чтобы сделать этот день безупречным».
+                            </p>
+                            <p class="text-[11px] text-stone-500 leading-relaxed uppercase tracking-wider font-light">
+                                Если вы готовите сюрприз или у вас возникли вопросы по логистике — свяжитесь со мной.
+                            </p>
                         </div>
+                    </div>
 
-                        <div class="flex flex-col gap-4 z-10 self-center">
-                            <a href="tel:89250104267" class="noir-btn group flex items-center justify-between border border-white/10 px-8 py-5 rounded-sm">
-                                <span class="text-[10px] uppercase tracking-widest">Позвонить</span>
-                                <i data-lucide="phone" class="w-4 h-4 opacity-40 group-hover:opacity-100"></i>
-                            </a>
-                            <a href="https://t.me/marisa_wedding" target="_blank" class="noir-btn group flex items-center justify-between bg-white text-black px-8 py-5 rounded-sm">
-                                <span class="text-[10px] uppercase tracking-widest font-bold">Написать в Telegram</span>
-                                <i data-lucide="send" class="w-4 h-4"></i>
-                            </a>
-                        </div>
+                    <!-- Кнопки связи -->
+                    <div class="flex flex-col gap-4 self-center">
+                        <a href="tel:89250104267" class="contact-btn border border-white/20 text-white py-4 px-8 text-center text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 flex items-center justify-center gap-3 rounded-xl">
+                            <i data-lucide="phone" size="16"></i> Позвонить
+                        </a>
+                        <a href="https://t.me/marisa_wedding" target="_blank" class="contact-btn border border-white/20 text-white py-4 px-8 text-center text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 flex items-center justify-center gap-3 rounded-xl">
+                            <i data-lucide="send" size="16"></i> Telegram
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- --- RSVP --- -->
     <section id="rsvp" class="py-40 px-6 bg-[#FAF9F6]">
@@ -516,23 +527,27 @@
         lucide.createIcons();
         }
 
-        // Скрипт плавного появления блока при скролле
-        const observerOptions = {
-            threshold: 0.2
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-    
-        const target = document.getElementById('concierge-section');
-        if (target) {
-            observer.observe(target);
-        }
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        
+            const observerOptions = {
+                threshold: 0.1
+            };
+        
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+        
+            const target = document.getElementById('concierge-section');
+            if (target) {
+                observer.observe(target);
+            }
+         
 
         // Рендер палитры
         const paletteContainer = document.getElementById('dress-code-palette');
@@ -596,6 +611,7 @@
     </script>
 </body>
 </html>
+
 
 
 
